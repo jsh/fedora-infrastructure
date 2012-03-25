@@ -1,0 +1,112 @@
+#!/bin/bash -eu
+#
+# mk-puppet-module
+#  impose current best-practices structure on the named modules
+#  Usage: mk-puppet-module [-c] [-g] modulename
+#    -c: create anything that doesn't exist
+#    -g: verify that we're working in a git repository and
+#        remove any empty directories.
+
+trap '{ (( errors == 0 )) || echo "$module: $errors errors"; }' EXIT
+
+errors=0
+usage="usage $0 [ -c ] [ -g ] modulename"
+
+warn() { echo $* >&2; (( errors += 1 )); }
+die() { echo $* >&2; exit 1; }
+module_dirs="files manifests lib templates tests"
+
+if [ ${PWD##*/} = "modules" ]; then
+    modulepath=$PWD
+else
+    die "$PWD not a modules directory"
+fi
+
+# parse options
+while getopts cg opt; do
+	case $opt in
+	    c) create=1  ;;
+	    g) gitwork=1 ;;
+	esac
+done
+
+: ${create:=''}
+: ${gitwork:=''}
+
+# now get the module names
+shift $((OPTIND - 1))
+[ $# = 1 ] || die $usage
+module=$1
+
+# validate gitrepo 
+if [ "$gitwork" ]; then
+    puppetrepo=/git/puppet
+    [ $(git config --get remote.origin.url) = "$puppetrepo" ]
+fi
+
+# check for existence
+if [ -d $module ]; then
+   cd $module
+elif [ "$create" ]; then
+   warn "creating $module"
+   mkdir $module; cd $module
+else
+   warn "$module missing"
+   exit 1;
+fi
+   
+if [ -f README ]; then
+    true
+elif [ "$create" ]; then
+    warn "creating $module/README"
+    echo "Placeholder README for $1" > README
+else
+    warn "$module/README missing"
+fi
+
+# validate module directory structure
+for dir in $module_dirs; do
+    if [ -d $dir ]; then
+	true
+    elif [ "$create" ]; then
+        mkdir -p $dir
+    else
+        warn "$module/$dir missing"
+    fi
+done
+
+# validate manifests subdirectory
+cd manifests
+if [ -f init.pp ]; then
+    grep -q "^class $module" init.pp ||
+        warn "$1/manifests/init.pp missing class definition"
+elif [ "$create" ]; then
+    warn "creating $module/manifests/init.pp"
+    printf "class $1 {\n}\n" > init.pp
+else
+   warn "$1/manifests/init.pp missing"
+fi
+
+# validate tests subdirectory
+for i in *; do
+    [ -d ../tests ] || continue  # don't bother if there's no tests directory
+    if [ -f ../tests/$i ]; then
+        true
+    elif [ "$create" ]; then
+	warn "creating $module/tests/$i"
+        perl -lane 'print "include $1" if /^class\s+(\S+)/' init.pp > ../tests/$i
+    else
+        warn "$tests/$i missing"
+    fi
+
+    if [ -f ../tests/$i ]; then 
+	puppet apply --modulepath=$modulepath -v --noop ../tests/init.pp
+    fi
+done
+
+
+if [ "$gitwork" ]; then
+    git add .
+    git clean -f -d
+    git reset
+fi
