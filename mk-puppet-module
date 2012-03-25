@@ -103,10 +103,3 @@ for i in *; do
 	puppet apply --modulepath=$modulepath -v --noop ../tests/init.pp
     fi
 done
-
-
-if [ "$gitwork" ]; then
-    git add .
-    git clean -f -d
-    git reset
-fi

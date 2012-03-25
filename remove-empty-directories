@@ -1,0 +1,9 @@
+#!/bin/bash -eu
+
+die() { echo $* >&2 ; exit 1; }
+# am I in a git repo?
+git config -l | grep -s core.bare || die "$PWD not a git repo"
+
+git stash -u
+git clean -f -d
+git stash pop
