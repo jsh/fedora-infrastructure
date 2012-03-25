@@ -1,0 +1,3 @@
+#!/bin/bash
+
+perl -pe 'next if m(puppet:///module); s(puppet:///)(puppet:///module/)'
