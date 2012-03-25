@@ -1,0 +1,45 @@
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:~/bin:
+CDPATH+=".:~"; set -P
+
+export EDITOR=/usr/bin/vim
+
+set -o ignoreeof
+
+# green prompt for success, red for failure
+
+PROMPT=$'%{\e[1;%(?.32.31)m%}%(!.#.$) %{\e[1;0m%}'
+RPROMPT=$'%{\e[1;%(?.32.31)m%}%3~%{\e[1;0m%}'
+
+xpwd() {
+  echo -ne "\e]0;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007"
+}
+
+precmd() { xpwd; }
+
+cdjob() {
+  local d
+
+  : ${1:?"usage $FUNCNAME %N"}
+
+  d=$(jobs $1 | perl -lane 'print "cd $1" if m/.*\(wd: (.*)\).*/')
+  test "$d" && eval $d
+}
+
+
+command_not_found_handler () 
+{ 
+    if [ -x /usr/lib/command-not-found ]; then
+        /usr/bin/python /usr/lib/command-not-found -- "$1";
+        return $?;
+    else
+        if [ -x /usr/share/command-not-found ]; then
+            /usr/bin/python /usr/share/command-not-found -- "$1";
+            return $?;
+        else
+            return 127;
+        fi;
+    fi
+}
+
+alias vi=vim
+bindkey '^R' history-incremental-search-backward
