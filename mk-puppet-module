@@ -4,13 +4,11 @@
 #  impose current best-practices structure on the named modules
 #  Usage: mk-puppet-module [-c] [-g] modulename
 #    -c: create anything that doesn't exist
-#    -g: verify that we're working in a git repository and
-#        remove any empty directories.
 
 trap '{ (( errors == 0 )) || echo "$module: $errors errors"; }' EXIT
 
 errors=0
-usage="usage $0 [ -c ] [ -g ] modulename"
+usage="usage $0 [ -c ] modulename"
 
 warn() { echo $* >&2; (( errors += 1 )); }
 die() { echo $* >&2; exit 1; }
@@ -26,12 +24,10 @@ fi
 while getopts cg opt; do
 	case $opt in
 	    c) create=1  ;;
-	    g) gitwork=1 ;;
 	esac
 done
 
 : ${create:=''}
-: ${gitwork:=''}
 
 # now get the module names
 shift $((OPTIND - 1))
@@ -39,10 +35,8 @@ shift $((OPTIND - 1))
 module=$1
 
 # validate gitrepo 
-if [ "$gitwork" ]; then
-    puppetrepo=/git/puppet
-    [ $(git config --get remote.origin.url) = "$puppetrepo" ]
-fi
+puppetrepo=/git/puppet
+[ $(git config --get remote.origin.url) = "$puppetrepo" ]
 
 # check for existence
 if [ -d $module ]; then
