@@ -1,0 +1,21 @@
+#!/bin/bash -eu
+
+warn() { echo $* >&2; } 
+die() { echo $* >&2; exit 1; } 
+
+if [ -d tests ]; then
+  warn "Directory 'tests/' already exists, not creating."
+  if cmp -s <(cd manifests; find .) <(cd tests; find .); then
+    exit 0
+  fi
+  die "FATAL: 'tests/' and 'manifests/' have different layout!"
+fi
+
+for d in $(find manifests -type d); do
+  mkdir -p ${d/manifests/tests}
+done
+
+for f in $(find manifests -type f -name *.pp); do
+  perl -lane 'if (s/^class\s*(\S*).*/include $1/) { s/{//; print;}'  $f > ${f/manifests/tests}
+done
+
