@@ -1,0 +1,19 @@
+#!/bin/bash -eu
+# How to test?
+
+die() { echo $* >&2; exit 1; }
+
+usage="$(basename $0) <puppetfile>.pp"
+[ $* = 1 ] || die $usage
+
+puppetrepo=/git/puppet
+[ $(git config --get remote.origin.url) = "$puppetrepo" ] ||
+  die "not in the standard puppet repo"
+
+if [ ${PWD##*/} = "modules" ]; then
+  modulepath=$PWD
+else
+  die "$PWD not a modules directory"
+fi
+
+puppet apply --modulepath=$modulepath -v --debug --test --noop $1

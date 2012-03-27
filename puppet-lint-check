@@ -1,0 +1,25 @@
+#!/bin/bash
+
+####### from http://vstone.eu/puppet-modules-in-jenkins
+# 
+for file in $(find . -iname '*.pp'); do
+  puppet parser validate --color false --render-as s --modulepath=modules $file || exit 1;
+done;
+
+####### and this
+find . -iname *.pp -exec puppet-lint --log-format "%{path}:%{linenumber}:%{check}:%{KIND}:%{message}" {} \;
+
+####### and this
+
+## Cleanup old docs.
+[ -d doc/ ] && rm -rf doc/
+## Dummy manifests folder.
+! [ -d manifests/ ] && mkdir manifests/
+## Generate docs
+puppet doc --mode rdoc --manifestdir manifests/ --modulepath ./modules/ --outputdir doc
+ 
+## Fix docs to how I want them, I don't like that the complete workspace is included in all file paths.
+if [ -d ${WORKSPACE}/doc/files/${WORKSPACE}/modules ]; then
+  mv -v "${WORKSPACE}/doc/files/${WORKSPACE}/modules" "${WORKSPACE}/doc/files/modules"
+fi;
+grep -l -R ${WORKSPACE} * | while read fname; do sed -i "s@${WORKSPACE}/@/@g" $fname; done;
