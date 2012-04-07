@@ -4,7 +4,7 @@ define glusterfs::client::config(
     $mountdir = '/gluster',
     $username = 'gluster',
     $owner = 'root',
-    $group = 'root'
+    $group = 'root',
 ) {
 
     include glusterfs::client
