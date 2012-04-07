@@ -2,11 +2,34 @@
 
 $^I = ".bak";
 
+$ppfile = "$ARGV[0]/manifests/init.pp";
+pop @ARGV;
+push @ARGV, $ppfile;
+#open IN, $ppfile or die "can't open $ppfile";
+
 while (<>) {
-  s/"/'/g if (/".+"/ && !/".*\$.*"/);
+
+  # Expand tabs
   s/\t/        /g;
+
+  # Only double-quote strings when there's variable expansion.
+  #   "foobarmumble" ->
+  #       'foobarmumble'
+  s("([^\$"]+)")('$1')g;
+
+  # File modes must be quoted and in octal
+  #    mode => 644, ->
+  #        mode => '0644',
   s/(mode\s*=>\s*)(\d+)\s*,/$1'$2',/;
   s/(mode\s*=>\s*)'(\d\d\d)',/$1'0$2',/;
-  s/"(\${\w*})"/$1/g;
+
+  # Variable expansions are already strings. When alone, no need to quote.
+  # Or brace, for that matter, which confuses puppet-lint
+  # (I'm guessing the latter is a bug.)
+  #    "${foobar}" ->
+  #        $foobar
+
+  s/"\${(\w*)}"/\$$1/g;
+
   print;
 }
