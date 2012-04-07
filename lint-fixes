@@ -15,7 +15,7 @@ while (<>) {
   # Only double-quote strings when there's variable expansion.
   #   "foobarmumble" ->
   #       'foobarmumble'
-  s("([^\$"]+)")('$1')g;
+  s("([^\$"]*)")('$1')g;
 
   # File modes must be quoted and in octal
   #    mode => 644, ->
@@ -30,6 +30,11 @@ while (<>) {
   #        $foobar
 
   s/"\${(\w*)}"/\$$1/g;
+
+  # use two-space tabs
+  # a complete hack
+  # sorry.
+  s/    /  /g;
 
   print;
 }
