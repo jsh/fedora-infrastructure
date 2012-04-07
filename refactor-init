@@ -24,7 +24,7 @@ sub new_filename {
   my $f = shift;
   chomp $f;
   $f =~ s/^(class|define)[^:]*::(.*)/$2/ ;  # trim 'class' and leading component
-  $f =~ s/[{(]//;	# trim brace
+  $f =~ s/[{(].*//;	# trim brace and all following
   $f =~ s/\s+.*//;	# trim whitepace
   $f =~ s(::)(/)g;	# turn :: into path separators
   $f =~ s/$/.pp/;	# add the .pp
