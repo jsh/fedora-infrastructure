@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /voting
+Disallow: /mirrormanager
+Disallow: /pkgdb/packages/name

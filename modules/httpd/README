@@ -1,0 +1,70 @@
+=====================
+httpd
+=====================
+
+The httpd module breaks down Apache configuration into "websites" (which
+roughly translates to a virtualhosts).
+
+For example, admin.fedoraproject.org is a website, and the ::proxy blocks
+for various applications such as FAS, bodhi, pkgdb, etc. tie them to the
+website that they are on.  To see where the links between websites and web
+applications live in puppet, see manifests/servergroups/proxy.pp.
+
+Apart from websites, some defines are provided for common things such as
+redirects, SSL certificates, etc.
+
+-----------
+Usage
+-----------
+
+Classes:
+
+httpd::base - httpd package, service, and base configs.
+httpd::mod_ssl - mod_ssl and initial ssl configs.
+httpd::mod_auth_pgsql - mod_auth_pgsql
+httpd::mod_wsgi - mod_wsgi and wsgi.conf
+httpd::mod_cache - mod_cache and cache cleanup cron job
+httpd::proxy - proxy server-specific configuration.
+httpd::app - app server-specific configuration.
+httpd::koji - koji server-specific configuration.
+httpd::squid - squid backend server-specific configuration.
+httpd::php - PHP, apc, and session directory.
+httpd::php-pecl-json - php-pecl-json package and configuration.
+
+Useful definitions:
+
+A website.
+httpd::website
+    ips - The IPs for the virualhost.
+    server_aliases - server aliases for the virtualhost
+    server_admin - The server admin email.
+    ssl - Whether SSL is enabled.
+    sslonly - Whether only SSL is allowed.
+    cert_name - The certificate name if SSL is enabled, must match the name of
+                the corresponding httpd::certificate.
+
+A certificate.  Puppet will look for the certificate in
+puppet:///config/secure/httpd/*.{cert,key}
+httpd::certificate
+    cert - The name of the certificate (defaults to the name of the
+           httpd::certificate).
+    key - The name of the key (defaults to the name of the httpd::certificate).
+
+A redirect on a website.  Translates into Apache's Redirect directive.
+httpd::redirect
+    website - The website for the redirect to be added to.
+    path - The path to redirect.
+    target - The target of thw redirect.
+    status - The type of redirect (defaults to 301).
+
+A domain rewrite (useful for redirecting / to something under a domain)
+httpd::domainrewrite
+    website - The website for the rewrite to be added to.
+    path - The path to rewrite.
+    target - The target of the rewrite.
+    status - The status of the rewrite (defaults to 302).
+
+-----------
+Prereqisites
+-----------
+
