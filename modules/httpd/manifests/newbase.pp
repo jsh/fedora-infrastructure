@@ -22,7 +22,7 @@ class  httpd::newbase {
         owner   => 'root',
         group   => 'root',
         mode    => '0644',
-        source  => "puppet:///httpd/httpd.conf.${::distrorelease}",
+        source  => "puppet:///module/httpd/httpd.conf.${::distrorelease}",
         notify  => Service['httpd'],
         require => Package['httpd'],
     }
@@ -38,7 +38,7 @@ class  httpd::newbase {
         owner  => 'root',
         group  => 'root',
         mode   => '0644',
-        source => 'puppet:///httpd/robots/robots.txt.lockbox01',
+        source => 'puppet:///module/httpd/robots/robots.txt.lockbox01',
     }
 }
 

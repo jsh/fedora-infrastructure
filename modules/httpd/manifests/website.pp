@@ -53,8 +53,8 @@ define httpd::website(
         group  => 'root',
         mode   => '0644',
         source => [
-          "puppet:///httpd/robots/robots.txt.$name",
-          'puppet:///httpd/robots/robots.txt',
+          "puppet:///module/httpd/robots/robots.txt.$name",
+          'puppet:///module/httpd/robots/robots.txt',
         ],
     }
 }

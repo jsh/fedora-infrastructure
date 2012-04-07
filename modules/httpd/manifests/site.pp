@@ -7,7 +7,7 @@ define httpd::site(
         owner   => 'root',
         group   => 'root',
         mode    => '0644',
-        source  => "puppet:///config/httpd/websites/$name.conf",
+        source  => "puppet:///module/config/httpd/websites/$name.conf",
         notify  => Service['httpd'],
     }
     file { "/etc/httpd/$confsubdir/$name":
@@ -15,7 +15,7 @@ define httpd::site(
         owner   => 'root',
         group   => 'root',
         mode    => '0644',
-        source  => "puppet:///config/httpd/websites/$name",
+        source  => "puppet:///module/config/httpd/websites/$name",
         recurse => true,
         notify  => Service['httpd'],
     }

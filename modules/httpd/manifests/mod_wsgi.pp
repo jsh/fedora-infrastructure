@@ -9,7 +9,7 @@ class httpd::mod_wsgi inherits httpd::base {
         mode    => '0644',
         notify  => Service['httpd'],
         require => Package['httpd'],
-        source  => 'puppet:///httpd/wsgi.conf',
+        source  => 'puppet:///module/httpd/wsgi.conf',
     }
 }
 

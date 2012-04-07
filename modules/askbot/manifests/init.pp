@@ -14,7 +14,7 @@ class askbot {
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    source  => 'puppet:///askbot/askbot.conf',
+    source  => 'puppet:///module/askbot/askbot.conf',
     notify  => Service['httpd'],
     require => Package['httpd'],
   }

@@ -14,7 +14,7 @@ class httpd::php { #inherits httpd::base {
     }
 
     file { '/etc/php.d/apc.ini':
-        source  => 'puppet:///httpd/php/apc.ini',
+        source  => 'puppet:///module/httpd/php/apc.ini',
         notify  => Service['httpd'],
         require => Package['php'],
     }

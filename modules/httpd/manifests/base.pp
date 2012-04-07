@@ -23,7 +23,7 @@ class httpd::base {
         owner   => 'root',
         group   => 'root',
         mode    => '0644',
-        source  => 'puppet:///httpd/httpd.conf',
+        source  => 'puppet:///module/httpd/httpd.conf',
         notify  => Service['httpd'],
         require => Package['httpd'],
     }
@@ -46,7 +46,7 @@ class httpd::base {
         owner    => 'root',
         group    => 'root',
         mode     => '0644',
-        source   => 'puppet:///httpd/httpd.logrotate',
+        source   => 'puppet:///module/httpd/httpd.logrotate',
         require  => Package['httpd'],
     }
 }

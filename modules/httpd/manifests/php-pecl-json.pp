@@ -4,7 +4,7 @@ class httpd::php-pecl-json {
     }
 
     file { '/etc/php.d/json.ini':
-        source  => 'puppet:///httpd/php/json.ini',
+        source  => 'puppet:///module/httpd/php/json.ini',
         notify  => Service['httpd'],
         require => Package['php'],
     }
