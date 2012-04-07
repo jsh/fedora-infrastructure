@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -w
 # refactor init.pp into pieces
 # 
 # splay an init file full of subclasses into a directory hierarchy
@@ -17,14 +17,15 @@ my $module = $ARGV[0] or die "usage: $pname modulename\n";
 chdir("$module/manifests"); 
 
 # new_filename "class foo::bar::mumble::frabitz {"
+#   or "define foo::bar::mumble::frabitz {"
 #   -> foo/bar/mumble/frabitz.pp
 #
 sub new_filename {
   my $f = shift;
   chomp $f;
-  $f =~ s/^class[^:]*::(.*)/$1/ ;  # trim 'class' and leading component
-  $f =~ s/{//;	# trim brace
-  $f =~ s/\s+//;	# trim whitepace
+  $f =~ s/^(class|define)[^:]*::(.*)/$2/ ;  # trim 'class' and leading component
+  $f =~ s/[{(]//;	# trim brace
+  $f =~ s/\s+.*//;	# trim whitepace
   $f =~ s(::)(/)g;	# turn :: into path separators
   $f =~ s/$/.pp/;	# add the .pp
   $f;		# and we're done
@@ -47,7 +48,7 @@ open (OUT, ">$filename") or die "Couldn't open output file $filename: $!\n";
 open(IN, 'init.pp') or die "can't open";
 while(<IN>) {
   # each subclass definition redirects output to a new .pp file
-  if (/^class[^:]*::(.*)/) {
+  if (/^(class|define)[^:]*::.*/) {
     $filename = new_filename($_);
 	create_dir_for $filename if $filename =~ m(/);
 	close OUT;
