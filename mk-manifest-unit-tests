@@ -3,6 +3,8 @@
 warn() { echo $* >&2; } 
 die() { echo $* >&2; exit 1; } 
 
+cd ${1:?"usage $(basename $0) modulename"}
+
 if [ -d tests ]; then
   warn "Directory 'tests/' already exists, not creating."
   if cmp -s <(cd manifests; find .) <(cd tests; find .); then
@@ -16,6 +18,8 @@ for d in $(find manifests -type d); do
 done
 
 for f in $(find manifests -type f -name *.pp); do
-  perl -lane 'if (s/^class\s*(\S*).*/include $1/) { s/{//; print;}'  $f > ${f/manifests/tests}
+  t=${f/manifests/tests}
+  perl -lane 'if (s/^class\s*(\S*).*/include $1/) { s/{//; print;}'  $f > $t
+  [ -s $t ] || rm -f $t
 done
 
