@@ -2,10 +2,9 @@
 
 $^I = ".bak";
 
-$ppfile = "$ARGV[0]/manifests/init.pp";
+my $ppfile = "$ARGV[0]/manifests/init.pp";
 pop @ARGV;
 push @ARGV, $ppfile;
-#open IN, $ppfile or die "can't open $ppfile";
 
 while (<>) {
 
