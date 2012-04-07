@@ -1,3 +1,3 @@
-#!/bin/bash
+#!/bin/bash -eu
 
-perl -pe 'next if m(puppet:///module); s(puppet:///)(puppet:///module/)'
+perl -i -pe 'next if m(puppet:///module); s(puppet:///)(puppet:///module/)' $1

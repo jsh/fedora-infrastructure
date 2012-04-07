@@ -1,13 +1,13 @@
 class httpd::proxy inherits httpd::base {
     File['/etc/httpd/conf/httpd.conf'] {
-        source => 'puppet:///httpd/httpd.conf-rhel5p',
+        source => 'puppet:///module/httpd/httpd.conf-rhel5p',
     }
 
     file { '/etc/httpd/conf.d/00-namevirtualhost.conf':
         owner   => 'root',
         group   => 'root',
         mode    => '0644',
-        source  => 'puppet:///httpd/00-namevirtualhost.conf',
+        source  => 'puppet:///module/httpd/00-namevirtualhost.conf',
         notify  => Service['httpd'],
         require => Package['httpd'],
     }
@@ -16,7 +16,7 @@ class httpd::proxy inherits httpd::base {
         owner   => 'root',
         group   => 'root',
         mode    => '0644',
-        source  => 'puppet:///httpd/01-keepalives.conf',
+        source  => 'puppet:///module/httpd/01-keepalives.conf',
         notify  => Service['httpd'],
         require => Package['httpd'],
     }

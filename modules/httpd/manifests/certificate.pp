@@ -6,12 +6,12 @@ define httpd::certificate(
     include httpd::mod_ssl
 
     $cert_source = $cert ? {
-        "'      => 'puppet:///config/secure/httpd/$name.cert",
+        "'      => 'puppet:///module/config/secure/httpd/$name.cert",
         default => $cert,
     }
 
     $key_source = $key ? {
-        "'      => 'puppet:///config/secure/httpd/$name.key",
+        "'      => 'puppet:///module/config/secure/httpd/$name.key",
         default => $key,
     }
 
@@ -20,7 +20,7 @@ define httpd::certificate(
             owner   => 'root',
             group   => 'root',
             mode    => '0644',
-            source  => "puppet:///config/secure/httpd/$sSLCertificateChainFile",
+            source  => "puppet:///module/config/secure/httpd/$sSLCertificateChainFile",
             notify  => Service['httpd'],
             require => Package['httpd'],
         }

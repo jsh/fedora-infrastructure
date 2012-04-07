@@ -9,7 +9,7 @@ class httpd::mod_ssl inherits httpd::base {
         mode    => '0644',
         notify  => Service['httpd'],
         require => Package['httpd'],
-        source  => 'puppet:///httpd/ssl.conf',
+        source  => 'puppet:///module/httpd/ssl.conf',
     }
 }
 

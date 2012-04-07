@@ -1,6 +1,6 @@
 class httpd::fasserver inherits httpd::base {
     File['/etc/httpd/conf/httpd.conf'] {
-        source => 'puppet:///httpd/httpd.conf.fas',
+        source => 'puppet:///module/httpd/httpd.conf.fas',
     }
 
     file { '/etc/httpd/conf.d/headers.conf':

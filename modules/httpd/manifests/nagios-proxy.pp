@@ -3,7 +3,7 @@ define httpd::nagios-proxy($website) {
         owner   => 'root',
         group   => 'root',
         mode    => '0644',
-        source  => 'puppet:///httpd/nagios.conf',
+        source  => 'puppet:///module/httpd/nagios.conf',
         notify  => Service['httpd'],
         require => Httpd::Website[$website],
     }

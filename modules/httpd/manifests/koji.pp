@@ -1,6 +1,6 @@
 class httpd::koji inherits httpd::base {
     File['/etc/httpd/conf/httpd.conf'] {
-        source => 'puppet:///httpd/httpd.conf-koji',
+        source => 'puppet:///module/httpd/httpd.conf-koji',
     }
 
     file { '/etc/httpd/conf.d/headers.conf':
