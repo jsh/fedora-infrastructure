@@ -1,5 +1,5 @@
 define httpd::site(
-    $confsubdir = 'conf.d',
+    $confsubdir = 'conf.d'
 ) {
     # cp $name.conf from websites path into apache config path
     # recurse $name subdir and copy into config path

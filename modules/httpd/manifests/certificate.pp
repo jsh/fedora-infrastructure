@@ -1,7 +1,7 @@
 define httpd::certificate(
     $cert = '',
     $key = '',
-    $sSLCertificateChainFile = '',
+    $sSLCertificateChainFile = ''
 ) {
     include httpd::mod_ssl
 

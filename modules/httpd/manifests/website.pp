@@ -5,7 +5,7 @@ define httpd::website(
     $ssl = false,
     $sslonly = false,
     $cert_name  = '',
-    $sSLCertificateChainFile = '',
+    $sSLCertificateChainFile = ''
 ) {
     file { "/etc/httpd/conf.d/$name":
         ensure  => directory,

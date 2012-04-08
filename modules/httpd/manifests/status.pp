@@ -1,6 +1,6 @@
 define httpd::status(
     $website,
-    $path = '/',
+    $path = '/'
 ) {
     file { "/etc/httpd/conf.d/$website/apache-status.conf":
         owner   => 'root',
