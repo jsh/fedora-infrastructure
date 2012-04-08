@@ -2,7 +2,7 @@ define httpd::redirect(
     $website,
     $target,
     $path = '/',
-    $status = 301
+    $status = 301,
 ) {
     file { "/etc/httpd/conf.d/$website/$name-redirect.conf":
         owner   => 'root',

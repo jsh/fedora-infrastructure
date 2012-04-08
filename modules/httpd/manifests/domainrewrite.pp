@@ -3,7 +3,7 @@ define httpd::domainrewrite(
     $target,
     $path = '^/$',
     $status = 302,
-    $ensure = present
+    $ensure = present,
 ) {
     file { "/etc/httpd/conf.d/$website/$name-rewrite.conf":
         ensure  => $ensure,

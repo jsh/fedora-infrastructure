@@ -3,7 +3,7 @@ define glusterfs::server::config(
     $datadir = '/srv/glusterfs',
     $username = 'gluster',
     $owner = root,
-    $group = root
+    $group = root,
 ) {
 
     include glusterfs::server

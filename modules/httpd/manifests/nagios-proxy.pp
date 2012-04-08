@@ -5,7 +5,7 @@ define httpd::nagios-proxy($website) {
         mode    => '0644',
         source  => 'puppet:///module/httpd/nagios.conf',
         notify  => Service['httpd'],
-        require => Httpd::Website[$website]
+        require => Httpd::Website[$website],
     }
 }
 
