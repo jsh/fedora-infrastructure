@@ -6,12 +6,12 @@ define httpd::certificate(
     include httpd::mod_ssl
 
     $cert_source = $cert ? {
-        "'      => 'puppet:///module/config/secure/httpd/$name.cert",
+        ''      => "puppet:///module/config/secure/httpd/$name.cert",
         default => $cert,
     }
 
     $key_source = $key ? {
-        "'      => 'puppet:///module/config/secure/httpd/$name.key",
+        ''      => "puppet:///module/config/secure/httpd/$name.key",
         default => $key,
     }
 
