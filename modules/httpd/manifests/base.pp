@@ -42,7 +42,7 @@ class httpd::base {
             releng2  => absent,
             relepel1 => absent,
             default  => file,
-        }
+        },
         owner    => 'root',
         group    => 'root',
         mode     => '0644',
