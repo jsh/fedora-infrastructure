@@ -4,7 +4,7 @@
 die() { echo $* >&2; exit 1; }
 
 usage="$(basename $0) <puppetfile>.pp"
-[ $* = 1 ] || die $usage
+[ $# -eq 1 ] || die $usage
 
 puppetrepo=/git/puppet
 [ $(git config --get remote.origin.url) = "$puppetrepo" ] ||
@@ -16,4 +16,4 @@ else
   die "$PWD not a modules directory"
 fi
 
-puppet apply --modulepath=$modulepath -v --debug --test --noop $1
+puppet apply --modulepath=$modulepath -v --debug --noop $1
