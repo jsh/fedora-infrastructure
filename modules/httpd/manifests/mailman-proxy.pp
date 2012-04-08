@@ -2,7 +2,7 @@ define httpd::mailman-proxy(
     $website,
     $path,
     $iconpath,
-    $proxyurl,
+    $proxyurl
 ) {
     file { "/etc/httpd/conf.d/$website/mailman.conf":
         owner   => 'root',

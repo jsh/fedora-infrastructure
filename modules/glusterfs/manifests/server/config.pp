@@ -2,8 +2,8 @@ define glusterfs::server::config(
     $password,
     $datadir = '/srv/glusterfs',
     $username = 'gluster',
-    $owner = root,
-    $group = root,
+    $owner = 'root',
+    $group = 'root'
 ) {
 
     include glusterfs::server

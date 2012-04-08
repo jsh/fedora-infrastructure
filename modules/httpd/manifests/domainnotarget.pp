@@ -2,7 +2,7 @@ define httpd::domainnotarget(
     $website,
     $path,
     $ensure = present,
-    $status = 410,
+    $status = 410
 ) {
     file { "/etc/httpd/conf.d/$website/$name-rewrite.conf":
         ensure  => $ensure,

@@ -1,7 +1,7 @@
 define askbot::proxy(
   $website,
   $path,
-  $proxyurl,
+  $proxyurl
 ) {
   include httpd::base
 

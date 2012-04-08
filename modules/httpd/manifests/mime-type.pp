@@ -1,7 +1,7 @@
 define httpd::mime-type(
     $website,
     $mimetype,
-    $extensions,
+    $extensions
 ) {
     file { "/etc/httpd/conf.d/$website/mime-types.conf":
         owner   => 'root',
