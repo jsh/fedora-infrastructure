@@ -1,0 +1,6 @@
+Check for quoted values of ids (e.g., 'root')
+Fix quoting for '' => "blah"
+Fix "blah $name blah"
+Fix conditionals inside resources.
+Fix namespacing for variables & line-length.
+Fix namespacing for inheritance.
