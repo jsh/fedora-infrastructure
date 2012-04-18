@@ -5,7 +5,7 @@ define askbot::proxy(
 ) {
   include httpd::base
 
-  file { "/etc/httpd/conf.d/$website/askbot.conf":
+  file { "/etc/httpd/conf.d/${website}/askbot.conf":
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
