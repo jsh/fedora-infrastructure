@@ -16,6 +16,12 @@ while (<>) {
   #       'foobarmumble'
   s("([^\$"]*)")('$1')g;
 
+  # Variables should be braced when
+  #    the variable is inside a double-quoted string"
+  #  "this is $foo.bar" ->
+  #    "this is ${foo}.bar"
+  s/(".*\$)(\w+)(.*")/$1\{$2\}$3/;
+
   # File modes must be quoted and in octal
   #    mode => 644, ->
   #        mode => '0644',
@@ -24,7 +30,6 @@ while (<>) {
 
   # Variable expansions are already strings. When alone, no need to quote.
   # Or brace, for that matter, which confuses puppet-lint
-  # (I'm guessing the latter is a bug.)
   #    "${foobar}" ->
   #        $foobar
 

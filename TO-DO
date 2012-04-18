@@ -4,4 +4,3 @@ Fix "blah $name blah"
 Fix conditionals inside resources.
 Fix namespacing for variables & line-length.
 Fix namespacing for inheritance.
-
